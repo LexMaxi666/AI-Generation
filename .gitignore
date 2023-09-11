@@ -31,3 +31,51 @@ google-services.json
 
 # Android Profiling
 *.hprof
+```kotlin
+import java.awt.Color
+import java.awt.Font
+import java.awt.Graphics2D
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
+
+fun main() {
+    val text = "Пример текста" // Текстовый запрос на русском языке
+
+    val width = 400 // Ширина изображения
+    val height = 200 // Высота изображения
+
+    val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+    val g2d: Graphics2D = image.createGraphics()
+
+    // Настройка рендеринга
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+    g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
+
+    // Заполняем фон изображения белым цветом
+    g2d.color = Color.WHITE
+    g2d.fillRect(0, 0, width, height)
+
+    // Задаем параметры текста
+    val fontSize = 24
+    val font = Font("Arial", Font.BOLD, fontSize)
+    g2d.font = font
+    g2d.color = Color.BLACK
+
+    // Позиционируем текст по центру изображения
+    val fm = g2d.fontMetrics
+    val x = (width - fm.stringWidth(text)) / 2
+    val y = (height - fm.height) / 2 + fm.ascent
+
+    // Рисуем текст на изображении
+    g2d.drawString(text, x, y)
+
+    g2d.dispose()
+
+    // Сохраняем изображение в файл
+    val outputFile = File("output.png")
+    ImageIO.write(image, "png", outputFile)
+    println("Изображение успешно создано.")
+}
+```
